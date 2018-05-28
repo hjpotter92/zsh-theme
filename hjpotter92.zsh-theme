@@ -58,11 +58,16 @@ theme_dev_prompt () {
     echo -n "$(theme_rbenv_prompt)$(theme_node_prompt)$(theme_python_prompt)"
 }
 
+theme_time_prompt () {
+    local CLOCK="$(emoji-clock)"
+    local TIME="$(date +'%I:%M %p')"
+    echo -n "%{$fg_bold[yellow]%}${CLOCK} ${TIME}%{$reset_color%}"
+}
+
 local ret_status="%(?.%{$fg_bold[green]%}✅.%{$fg_bold[red]%}✘ )%{$reset_color%}"
-local time_display="%{$fg_bold[yellow]%}$(emoji-clock)%D{%I:%M %P}%{$reset_color%}"
 local name="%{$fg_bold[blue]%}%n%{$reset_color%}"
 
-PROMPT=$'\u250c\u2524${ret_status}\u251c\u2500\u2524 ${name} \u251c\u2500\u2524%U%F{magenta}%1~%f%u\u251c\u2500\u2524 %{$time_display%} \u2502\t$(theme_dev_prompt)\n\u2514\u2534\u2500 $(battery_level_gauge) \u2534\u2500%{$fg_bold[cyan]%} ➜%{$reset_color%} '
+PROMPT=$'\u250c\u2524${ret_status}\u251c\u2500\u2524 ${name} \u251c\u2500\u2524%U%F{magenta}%1~%f%u\u251c\u2500\u2524 $(theme_time_prompt) \u2502\t$(theme_dev_prompt)\n\u2514\u2534\u2500 $(battery_level_gauge) \u2534\u2500%{$fg_bold[cyan]%} ➜%{$reset_color%} '
 
 
 ## EMACS mode ###########################################
