@@ -64,10 +64,18 @@ theme_time_prompt () {
     echo -n "%{$fg_bold[yellow]%}${CLOCK} ${TIME}%{$reset_color%}"
 }
 
+theme_battery_prompt () {
+    local GAUGE="$(battery_level_gauge)"
+    local SEPARATOR="$(battery_is_charging && echo "" || echo " ")"
+    echo -n "${GAUGE}${SEPARATOR}"
+}
+
 local ret_status="%(?.%{$fg_bold[green]%}✅.%{$fg_bold[red]%}✘ )%{$reset_color%}"
 local name="%{$fg_bold[blue]%}%n%{$reset_color%}"
+local dir_path="%{%U$fg[magenta]%}%1~%{$reset_color%u%}"
+local theme_separator=$'\u251c\u2500\u2524'
 
-PROMPT=$'\u250c\u2524${ret_status}\u251c\u2500\u2524 ${name} \u251c\u2500\u2524%U%F{magenta}%1~%f%u\u251c\u2500\u2524 $(theme_time_prompt) \u2502\t$(theme_dev_prompt)\n\u2514\u2534\u2500 $(battery_level_gauge) \u2534\u2500%{$fg_bold[cyan]%} ➜%{$reset_color%} '
+PROMPT=$'\u250c\u2524${ret_status}${theme_separator} ${name} ${theme_separator}${dir_path}${theme_separator} $(theme_time_prompt) \u2502\t$(theme_dev_prompt)\n\u2514\u2534\u2500 %{$(theme_battery_prompt)%} \u2534\u2500 %{$fg_bold[cyan]%}➜%{$reset_color%} '
 
 
 ## EMACS mode ###########################################
