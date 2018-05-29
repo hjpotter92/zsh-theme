@@ -30,10 +30,10 @@ rev_search () {
 theme_rbenv_prompt () {
     if ! type rbenv > /dev/null
     then
-        echo -n ""
+        printf "%s" ""
     else
         local VERSION="$(rbenv_prompt_info)"
-        [ "$VERSION" != "system" ] && echo "%{$fg_bold[red]%}%{$reset_color%}:${VERSION} " || echo -n ""
+        [ "$VERSION" != "system" ] && printf "%s" "%{$fg_bold[red]%}%{$reset_color%}:${VERSION} " || printf "%s" ""
     fi
 }
 
@@ -42,7 +42,7 @@ theme_node_prompt () {
     then
         local NODE_VERSION="$(node -v)"
         local NPM_VERSION="$(npm -v)"
-        echo "%{$fg[green]%}%{$reset_color%}:${NODE_VERSION} %{$fg_bold[red]%}%{$reset_color%}:${NPM_VERSION} "
+        printf "%s" "%{$fg[green]%}%{$reset_color%}:${NODE_VERSION} %{$fg_bold[red]%}%{$reset_color%}:${NPM_VERSION} "
     fi
 }
 
@@ -50,32 +50,32 @@ theme_python_prompt () {
     if [ -v VIRTUAL_ENV ]
     then
         local VERSION="$(python -V 2>&1)"
-        echo -n "%{$fg[yellow]%}%{$reset_color%}:${VERSION}(%{$fg[magenta]%}$(basename ${VIRTUAL_ENV})%{$reset_color%})"
+        printf "%s" "%{$fg[yellow]%}%{$reset_color%}:${VERSION}(%{$fg[magenta]%}$(basename ${VIRTUAL_ENV})%{$reset_color%})"
     fi
 }
 
 theme_dev_prompt () {
-    echo -n "$(theme_rbenv_prompt)$(theme_node_prompt)$(theme_python_prompt)"
+    printf "%s" "$(theme_rbenv_prompt)$(theme_node_prompt)$(theme_python_prompt)"
 }
 
 theme_time_prompt () {
     local CLOCK="$(emoji-clock)"
     local TIME="$(date +'%I:%M %p')"
-    echo -n "%{$fg_bold[yellow]%}${CLOCK} ${TIME}%{$reset_color%}"
+    printf "%s" "%{$fg_bold[yellow]%}${CLOCK} ${TIME}%{$reset_color%}"
 }
 
 theme_battery_prompt () {
     local GAUGE="$(battery_level_gauge)"
-    local SEPARATOR="$(battery_is_charging && echo "" || echo " ")"
-    echo -n "${GAUGE}${SEPARATOR}"
+    local SEPARATOR="$(battery_is_charging && printf "%s" "" || printf "%s" " ")"
+    printf "%s" "${GAUGE}${SEPARATOR}"
 }
 
 local ret_status="%(?.%{$fg_bold[green]%}✅.%{$fg_bold[red]%}✘ )%{$reset_color%}"
 local name="%{$fg_bold[blue]%}%n%{$reset_color%}"
-local dir_path="%{%U$fg[magenta]%}%1~%{$reset_color%u%}"
+local dir_path='%U%{$fg[magenta]%}%1~%{$reset_color%}%u'
 local theme_separator=$'\u251c\u2500\u2524'
 
-PROMPT=$'\u250c\u2524${ret_status}${theme_separator} ${name} ${theme_separator}${dir_path}${theme_separator} $(theme_time_prompt) \u2502\t$(theme_dev_prompt)\n\u2514\u2534\u2500 %{$(theme_battery_prompt)%} \u2534\u2500 %{$fg_bold[cyan]%}➜%{$reset_color%} '
+PROMPT=$'\u250c\u2524${ret_status}${theme_separator} ${name} ${theme_separator}${dir_path}${theme_separator} $(theme_time_prompt) \u2502\t$(theme_dev_prompt)\n\u2514\u2534\u2500 $(theme_battery_prompt) \u2534\u2500 %{$fg_bold[cyan]%}➜%{$reset_color%} '
 
 
 ## EMACS mode ###########################################
