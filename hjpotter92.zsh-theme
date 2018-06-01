@@ -40,7 +40,7 @@ theme_rbenv_prompt () {
 theme_node_prompt () {
     if rev_search "package.json" || rev_search "node_modules"
     then
-        local NODE_VERSION="$(node -v)"
+        local NODE_VERSION="$(node -v | cut -d 'v' -f2)"
         local NPM_VERSION="$(npm -v)"
         printf "%s" "%{$fg[green]%}%{$reset_color%}:${NODE_VERSION} %{$fg_bold[red]%}%{$reset_color%}:${NPM_VERSION} "
     fi
@@ -49,7 +49,7 @@ theme_node_prompt () {
 theme_python_prompt () {
     if [ -v VIRTUAL_ENV ]
     then
-        local VERSION="$(python -V 2>&1)"
+        local VERSION="$(python -V 2>&1 | cut -d ' ' -f2)"
         printf "%s" "%{$fg[yellow]%}%{$reset_color%}:${VERSION}(%{$fg[magenta]%}$(basename ${VIRTUAL_ENV})%{$reset_color%})"
     fi
 }
