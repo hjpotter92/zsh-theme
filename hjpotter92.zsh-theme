@@ -55,7 +55,7 @@ theme_python_prompt () {
 }
 
 theme_dev_prompt () {
-    printf "%s" "$(theme_rbenv_prompt)$(theme_node_prompt)$(theme_python_prompt)"
+    printf "%s" "$(theme_rbenv_prompt)$(theme_node_prompt)$(theme_python_prompt)$(kube_ps1)"
 }
 
 theme_time_prompt () {
@@ -74,6 +74,7 @@ local ret_status="%(?.%{$fg_bold[green]%}✅.%{$fg_bold[red]%}✘ )%{$reset_colo
 local name="%{$fg_bold[blue]%}%n%{$reset_color%}"
 local dir_path="%U%{$fg[magenta]%}%1~%{$reset_color%}%u"
 local theme_separator=$'\u251c\u2500\u2524'
+KUBE_PS1_SYMBOL_USE_IMG=true
 
 PROMPT=$'\u250c\u2524${ret_status}${theme_separator} ${name} ${theme_separator}${dir_path}${theme_separator} $(theme_time_prompt) \u2502\t$(theme_dev_prompt)\n\u2514\u2534\u2500 $(theme_battery_prompt) \u2534\u2500 %{$fg_bold[cyan]%}➜%{$reset_color%} '
 
